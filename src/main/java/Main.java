@@ -5,10 +5,15 @@ public class Main {
 
 
     public static void main(String[] args) {
+        try{
+            Arquivo.escreverArquivo("Hello World","src/main/arquivo.txt");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-       GraphMounter gm = new GraphMounter();
-       gm.MountGraph("tiagofnakao");
-       gm.graph.print();
+       //GraphMounter gm = new GraphMounter();
+       //gm.MountGraph("tiagofnakao");
+       //gm.graph.print();
         /*
         Twitter twitter = TwitterFactory.getSingleton();
         String message="\"A Visit to Transylvania\" by Euromaxx: Lifestyle Europe (DW) \n http://bit.ly/1cHB7MH";

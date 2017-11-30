@@ -1,7 +1,4 @@
-package br.com.nakao.model;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -10,11 +7,11 @@ import javax.swing.JOptionPane;
  * @author Nakao
  */
 public class Arquivo {
-    private FileReader arq;
-    private BufferedReader buff;
-    private List<String> file;
+    public static FileReader arq;
+    public static BufferedReader buff;
+    public  static List<String> file;
 
-    public List<String> lerArquivo(String path){
+    public static List<String> lerArquivo(String path){
         file = new ArrayList<String>();
         try {
             arq = new FileReader (path);
@@ -31,5 +28,9 @@ public class Arquivo {
         }
     }
 
-
+    public static void escreverArquivo(String texto,String path) throws IOException {
+        BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+        buffWrite.append(texto + "\n");
+        buffWrite.close();
+    }
 }

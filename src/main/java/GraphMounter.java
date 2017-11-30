@@ -38,7 +38,7 @@ public class GraphMounter {
                     count++;
                 }
             }
-            /*
+
             while(levelsCount<10 && !nexts.isEmpty()){
                 levelsCount++;
                 actuals.clear();
@@ -49,7 +49,7 @@ public class GraphMounter {
                     count = 0;
                     for(User u:followingList){
                         if(!visiteds.contains(u.getScreenName())){
-                            if(count<9){
+                            if(count<10){
                                 nexts.add(u.getScreenName());
                                 graph.addNode(u.getScreenName());
                                 graph.addInner(sourceAccountLogin,u.getScreenName());
@@ -60,7 +60,7 @@ public class GraphMounter {
                         }
                     }
                 }
-            }*/
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
