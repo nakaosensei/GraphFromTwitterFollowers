@@ -8,19 +8,21 @@ import java.util.ArrayList;
 
 public class GraphMounter {
     public GraphAdjacencyList graph;
+    public int writesCount;
 
     public GraphMounter(){
         this.graph = new GraphAdjacencyList();
     }
 
     public void MountGraph(String sourceAccountLogin){
+        int sleepTime = 75000;
         try{
+            long startTime = System.nanoTime();
             Twitter twitter = TwitterFactory.getSingleton();
-            ArrayList<String> actuals = new ArrayList<String>();
-            ArrayList<String> nexts   = new ArrayList<String>();
-            ArrayList<String> visiteds = new ArrayList<String>();
+            ArrayList<String> actuals  =  new ArrayList<String>();
+            ArrayList<String> nexts    =  new ArrayList<String>();
+            ArrayList<String> visiteds =  new ArrayList<String>();
             int levelsCount=0;
-
             graph.addNode(sourceAccountLogin);
             visiteds.add(sourceAccountLogin);
             int count=0;
@@ -38,13 +40,22 @@ public class GraphMounter {
                     count++;
                 }
             }
+            graph.writeToFile("src/main/graph"+writesCount+".txt");
+            writesCount++;
+            long duration = System.nanoTime() - startTime;
+            if ((sleepTime - duration / 1000000) > 0) {
+                System.out.println("Sleep for " + (sleepTime - duration / 1000000) + " miliseconds");
+                Thread.sleep((sleepTime - duration / 1000000));
+            }
 
             while(levelsCount<10 && !nexts.isEmpty()){
                 levelsCount++;
                 actuals.clear();
                 actuals.addAll(nexts);
+
                 nexts.clear();
                 for(String s:actuals){
+                    startTime = System.nanoTime();
                     followingList= twitter.getFriendsList(s,-1);
                     count = 0;
                     for(User u:followingList){
@@ -52,12 +63,19 @@ public class GraphMounter {
                             if(count<10){
                                 nexts.add(u.getScreenName());
                                 graph.addNode(u.getScreenName());
-                                graph.addInner(sourceAccountLogin,u.getScreenName());
+                                graph.addInner(s,u.getScreenName());
                             }else{
                                 break;
                             }
                             count++;
                         }
+                    }
+                    graph.writeToFile("src/main/graph"+writesCount+".txt");
+                    writesCount++;
+                    duration = System.nanoTime() - startTime;
+                    if ((sleepTime - duration / 1000000) > 0) {
+                        System.out.println("Sleep for " + (6000 - duration / 1000000) + " miliseconds");
+                        Thread.sleep((sleepTime - duration / 1000000));
                     }
                 }
             }
