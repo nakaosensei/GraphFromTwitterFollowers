@@ -7,7 +7,7 @@ import twitter4j.User;
 import java.util.ArrayList;
 
 public class GraphMounter {
-    GraphAdjacencyList graph;
+    public GraphAdjacencyList graph;
 
     public GraphMounter(){
         this.graph = new GraphAdjacencyList();
@@ -38,6 +38,7 @@ public class GraphMounter {
                     count++;
                 }
             }
+            /*
             while(levelsCount<10 && !nexts.isEmpty()){
                 levelsCount++;
                 actuals.clear();
@@ -59,7 +60,7 @@ public class GraphMounter {
                         }
                     }
                 }
-            }
+            }*/
         }catch(Exception e){
             e.printStackTrace();
         }

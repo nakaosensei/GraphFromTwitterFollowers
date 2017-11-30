@@ -1,9 +1,15 @@
+import br.com.Graph.GraphAdjacencyList;
 import twitter4j.*;
 
 public class Main {
 
 
     public static void main(String[] args) {
+
+       GraphMounter gm = new GraphMounter();
+       gm.MountGraph("tiagofnakao");
+       gm.graph.print();
+        /*
         Twitter twitter = TwitterFactory.getSingleton();
         String message="\"A Visit to Transylvania\" by Euromaxx: Lifestyle Europe (DW) \n http://bit.ly/1cHB7MH";
         try{
@@ -13,7 +19,6 @@ public class Main {
             }
         }catch(Exception e){
             e.printStackTrace();
-        }
-
+        }*/
     }
 }
