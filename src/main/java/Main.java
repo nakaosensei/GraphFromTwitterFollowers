@@ -15,7 +15,8 @@ public class Main {
        GraphMounter gm = new GraphMounter();
        gm.MountGraph("tiagofnakao");
        gm.graph.print();
-        System.out.println(gm.writesCount);
+       System.out.println(gm.writesCount);
+       System.out.println(gm.levelsCount);
         /*
         Twitter twitter = TwitterFactory.getSingleton();
         String message="\"A Visit to Transylvania\" by Euromaxx: Lifestyle Europe (DW) \n http://bit.ly/1cHB7MH";

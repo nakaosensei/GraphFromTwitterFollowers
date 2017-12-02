@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class GraphMounter {
     public GraphAdjacencyList graph;
     public int writesCount;
+    public int levelsCount;
 
     public GraphMounter(){
         this.graph = new GraphAdjacencyList();
@@ -22,13 +23,13 @@ public class GraphMounter {
             ArrayList<String> actuals  =  new ArrayList<String>();
             ArrayList<String> nexts    =  new ArrayList<String>();
             ArrayList<String> visiteds =  new ArrayList<String>();
-            int levelsCount=0;
+            levelsCount=0;
             graph.addNode(sourceAccountLogin);
             visiteds.add(sourceAccountLogin);
             int count=0;
             PagableResponseList<User> followingList= twitter.getFriendsList(sourceAccountLogin,-1);
             for(User s:followingList){
-                if(!visiteds.contains(s.getScreenName())){
+                if(!visiteds.contains(s.getScreenName()) && s.getFriendsCount()>70){
                     if(count<10){
                         visiteds.add(s.getScreenName());
                         nexts.add(s.getScreenName());
@@ -74,7 +75,7 @@ public class GraphMounter {
                     writesCount++;
                     duration = System.nanoTime() - startTime;
                     if ((sleepTime - duration / 1000000) > 0) {
-                        System.out.println("Sleep for " + (6000 - duration / 1000000) + " miliseconds");
+                        System.out.println("Sleep for " + (sleepTime - duration / 1000000) + " miliseconds");
                         Thread.sleep((sleepTime - duration / 1000000));
                     }
                 }
