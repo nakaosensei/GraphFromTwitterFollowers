@@ -3,6 +3,7 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
 
@@ -10,16 +11,30 @@ public class GraphMounter {
     public GraphAdjacencyList graph;
     public int writesCount;
     public int levelsCount;
+    public ConfigurationBuilder cb;
+    public Twitter twitter;
 
     public GraphMounter(){
         this.graph = new GraphAdjacencyList();
     }
 
+
+    public void initConfigurationBuilder(){
+        cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey("ZfyYT762f8iptmyOAQiPVpSSG")
+                .setOAuthConsumerSecret("abdgza7zIl2lbRaYdY4L7C5zhGgxftLiACt5WJfrFtGnNIQqIF")
+                .setOAuthAccessToken("188507287-370vFKYm0sA6OumKatEWXRZuA4ippzCl7kteJCpi")
+                .setOAuthAccessTokenSecret("MIaKNuYorBD5qqsxzzb58gOuvrBuGBToya5nzLEHsJ8kT");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        twitter = tf.getInstance();
+    }
+
     public void MountGraph(String sourceAccountLogin){
         int sleepTime = 75000;
+        this.initConfigurationBuilder();
         try{
             long startTime = System.nanoTime();
-            Twitter twitter = TwitterFactory.getSingleton();
             ArrayList<String> actuals  =  new ArrayList<String>();
             ArrayList<String> nexts    =  new ArrayList<String>();
             ArrayList<String> visiteds =  new ArrayList<String>();
@@ -49,7 +64,7 @@ public class GraphMounter {
                 Thread.sleep((sleepTime - duration / 1000000));
             }
 
-            while(levelsCount<=2 && !nexts.isEmpty()){
+            while(levelsCount<10 && !nexts.isEmpty()){
                 System.out.println("Actuals:");
                 for(String s:actuals){
                     System.out.print(s+" - ");
@@ -86,6 +101,7 @@ public class GraphMounter {
                         System.out.println("Sleep for " + (sleepTime - duration / 1000000) + " miliseconds");
                         Thread.sleep((sleepTime - duration / 1000000));
                     }
+                    this.initConfigurationBuilder();
                 }
                 levelsCount++;
             }
