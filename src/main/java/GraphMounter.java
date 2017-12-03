@@ -23,11 +23,11 @@ public class GraphMounter {
             ArrayList<String> actuals  =  new ArrayList<String>();
             ArrayList<String> nexts    =  new ArrayList<String>();
             ArrayList<String> visiteds =  new ArrayList<String>();
-            levelsCount=0;
+            levelsCount=2;
             graph.addNode(sourceAccountLogin);
             visiteds.add(sourceAccountLogin);
             int count=0;
-            PagableResponseList<User> followingList= twitter.getFriendsList(sourceAccountLogin,-1);
+            PagableResponseList<User> followingList= twitter.getFriendsList(sourceAccountLogin,-1,20);
             for(User s:followingList){
                 if(!visiteds.contains(s.getScreenName()) && s.getFriendsCount()>70){
                     if(count<10){
@@ -49,26 +49,34 @@ public class GraphMounter {
                 Thread.sleep((sleepTime - duration / 1000000));
             }
 
-            while(levelsCount<10 && !nexts.isEmpty()){
-                levelsCount++;
+            while(levelsCount<=2 && !nexts.isEmpty()){
+                System.out.println("Actuals:");
+                for(String s:actuals){
+                    System.out.print(s+" - ");
+                }
+                System.out.println("\nNexts");
+                for(String s:nexts){
+                    System.out.print(s+" - ");
+                }
+
                 actuals.clear();
                 actuals.addAll(nexts);
-
                 nexts.clear();
                 for(String s:actuals){
                     startTime = System.nanoTime();
-                    followingList= twitter.getFriendsList(s,-1);
+                    followingList= twitter.getFriendsList(s,-1,20);
                     count = 0;
                     for(User u:followingList){
-                        if(!visiteds.contains(u.getScreenName())){
+                        if(!visiteds.contains(u.getScreenName())&& u.getFriendsCount()>70){
                             if(count<10){
+                                visiteds.add(u.getScreenName());
                                 nexts.add(u.getScreenName());
                                 graph.addNode(u.getScreenName());
                                 graph.addInner(s,u.getScreenName());
+                                count++;
                             }else{
                                 break;
                             }
-                            count++;
                         }
                     }
                     graph.writeToFile("src/main/graph"+writesCount+".txt");
@@ -79,6 +87,7 @@ public class GraphMounter {
                         Thread.sleep((sleepTime - duration / 1000000));
                     }
                 }
+                levelsCount++;
             }
         }catch(Exception e){
             e.printStackTrace();

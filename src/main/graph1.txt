@@ -1,11 +1,10 @@
 Noelle_CD
+BsThemesCo
 henriko202
 leonardocptr
-TheSamethyst
 shitty_sailor
-DanaFischerMTG
-tiagofnakao/jfwong/JoshLeeKwai/TolarianCollege/gustavo_mantuan/atacadogames/henriko202/augustuslopes/igorsteinmacher/leonardocptr/cms_leonardo
-dog_feelings
+iLoganC
+tiagofnakao/jfwong/JoshLeeKwai/TolarianCollege/gustavo_mantuan/atacadogames/henriko202/BsThemesCo/augustuslopes/igorsteinmacher/leonardocptr
 DreNav
 JoshLeeKwai
 TolarianCollege
@@ -14,9 +13,10 @@ arielnagi
 igorsteinmacher
 seventeen
 augustuslopes
+TheDenverPope
 Tonythedomo
-cms_leonardo
-jfwong/dog_feelings/TheSaintJimi/shitty_sailor/DreNav/DanaFischerMTG/Tonythedomo/arielnagi/Noelle_CD/seventeen/TheSamethyst
+cakefist
+jfwong/TheDenverPope/iLoganC/cakefist/TheSaintJimi/shitty_sailor/DreNav/Tonythedomo/arielnagi/Noelle_CD/seventeen
 gustavo_mantuan
 TheSaintJimi
 
