@@ -1,4 +1,3 @@
-import br.com.Graph.GraphAdjacencyList;
 import twitter4j.*;
 
 public class Main {

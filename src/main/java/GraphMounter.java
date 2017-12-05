@@ -1,10 +1,10 @@
-import br.com.Graph.GraphAdjacencyList;
 import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GraphMounter {
@@ -26,12 +26,14 @@ public class GraphMounter {
                 .setOAuthConsumerSecret("abdgza7zIl2lbRaYdY4L7C5zhGgxftLiACt5WJfrFtGnNIQqIF")
                 .setOAuthAccessToken("188507287-370vFKYm0sA6OumKatEWXRZuA4ippzCl7kteJCpi")
                 .setOAuthAccessTokenSecret("MIaKNuYorBD5qqsxzzb58gOuvrBuGBToya5nzLEHsJ8kT");
+                //.setHttpProxyPort(8080)
+                //.setHttpProxyHost("proxy");
         TwitterFactory tf = new TwitterFactory(cb.build());
         twitter = tf.getInstance();
     }
 
     public void MountGraph(String sourceAccountLogin){
-        int sleepTime = 75000;
+        int sleepTime = 100000;
         this.initConfigurationBuilder();
         try{
             long startTime = System.nanoTime();
@@ -44,24 +46,29 @@ public class GraphMounter {
             int count=0;
             PagableResponseList<User> followingList= twitter.getFriendsList(sourceAccountLogin,-1,20);
             for(User s:followingList){
-                if(!visiteds.contains(s.getScreenName()) && s.getFriendsCount()>70){
-                    if(count<10){
+                if(count<10){
+                    if(!visiteds.contains(s.getScreenName()) && s.getFriendsCount()>70){
                         visiteds.add(s.getScreenName());
                         nexts.add(s.getScreenName());
                         graph.addNode(s.getScreenName());
                         graph.addInner(sourceAccountLogin,s.getScreenName());
+                        count++;
                     }else{
-                        break;
+                        graph.addNode(s.getScreenName());
+                        graph.addInner(sourceAccountLogin,s.getScreenName());
                     }
-                    count++;
+                }else{
+                    break;
                 }
             }
-            graph.writeToFile("src/main/graph"+writesCount+".txt");
+            graph.writeToFile("src/main/Generated/graph"+writesCount+".txt");
             writesCount++;
             long duration = System.nanoTime() - startTime;
             if ((sleepTime - duration / 1000000) > 0) {
                 System.out.println("Sleep for " + (sleepTime - duration / 1000000) + " miliseconds");
+                //this.initConfigurationBuilder();
                 Thread.sleep((sleepTime - duration / 1000000));
+                //this.initConfigurationBuilder();
             }
 
             while(levelsCount<10 && !nexts.isEmpty()){
@@ -82,33 +89,42 @@ public class GraphMounter {
                     followingList= twitter.getFriendsList(s,-1,20);
                     count = 0;
                     for(User u:followingList){
-                        if(!visiteds.contains(u.getScreenName())&& u.getFriendsCount()>70){
-                            if(count<10){
+                        if(count<10){
+                            if(!visiteds.contains(u.getScreenName())&& u.getFriendsCount()>70){
                                 visiteds.add(u.getScreenName());
                                 nexts.add(u.getScreenName());
                                 graph.addNode(u.getScreenName());
                                 graph.addInner(s,u.getScreenName());
                                 count++;
                             }else{
-                                break;
+                                graph.addNode(u.getScreenName());
+                                graph.addInner(s,u.getScreenName());
                             }
+                        }else{
+                            break;
                         }
                     }
-                    graph.writeToFile("src/main/graph"+writesCount+".txt");
+                    graph.writeToFile("src/main/Generated/graph"+writesCount+".txt");
                     writesCount++;
                     duration = System.nanoTime() - startTime;
                     if ((sleepTime - duration / 1000000) > 0) {
                         System.out.println("Sleep for " + (sleepTime - duration / 1000000) + " miliseconds");
+                        //this.initConfigurationBuilder();
                         Thread.sleep((sleepTime - duration / 1000000));
+                        //this.initConfigurationBuilder();
                     }
-                    this.initConfigurationBuilder();
+
                 }
                 levelsCount++;
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-
+        try {
+            Arquivo.escreverArquivo("Levels count:"+this.levelsCount+" - Nodes count:"+this.writesCount,"src/main/Generated/information.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         /*
         try{
             PagableResponseList<User> followersList= twitter.getFriendsList(sourceAccountLogin,-1);
