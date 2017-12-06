@@ -33,7 +33,7 @@ public class GraphMounter {
     }
 
     public void MountGraph(String sourceAccountLogin){
-        int sleepTime = 100000;
+        int sleepTime = 65000;
         this.initConfigurationBuilder();
         try{
             long startTime = System.nanoTime();
