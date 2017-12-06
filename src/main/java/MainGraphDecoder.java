@@ -20,25 +20,25 @@ public class MainGraphDecoder {
             switch (lido){
                 case 1:
                     System.out.println("Digite um nome de usuario, como o grafo tem quatro niveis, voce so pode escolher nos do primeiro e segundo nivel, recomendo tiagofnakao");
-                    user = entrada.nextLine();
+                    user = entrada.next();
                     String followersFromFollowers = gd.getFollowerFromFolowers(user);
                     System.out.println(followersFromFollowers);
                     break;
                 case 2:
                     System.out.println("Digite um nome de usuario");
-                    user = entrada.nextLine();
+                    user = entrada.next();
                     Largura l = gd.doBuscaLargura(user);
                     l.print();
                     break;
                 case 3:
                     System.out.println("Digite um nome de usuario");
-                    user = entrada.nextLine();
+                    user = entrada.next();
                     Profundidade p = gd.doBuscaProfundidade(user);
                     p.print();
                     break;
                 case 4:
                     System.out.println("Digite um nome de usuario");
-                    user = entrada.nextLine();
+                    user = entrada.next();
                     GraphMounter gm = new GraphMounter();
                     gm.MountGraph(user);
                     gm.graph.print();
