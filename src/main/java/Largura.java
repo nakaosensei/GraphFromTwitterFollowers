@@ -28,6 +28,13 @@ public class Largura {
         this.distancesToRaiz = new HashMap();
     }
 
+    public void print(){
+        GraphAdjacencyList gal = (GraphAdjacencyList)this.graph;
+        for(String s:gal.adjacencyList.keySet()){
+            System.out.println(s+" - Predecessor:"+this.predecessors.get(s) +" - DistanciaRaiz:"+this.distancesToRaiz.get(s));
+        }
+    }
+
 
     public void runBFS(String raiz){
        /* Pseudo-code: Busca em Largura

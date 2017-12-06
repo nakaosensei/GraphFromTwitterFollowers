@@ -67,4 +67,11 @@ public class Profundidade {
         this.tempo = this.tempo+1;
         this.tempoFinalizacao.put(vertex, tempo);
     }
+
+    public void print(){
+        GraphAdjacencyList gal = (GraphAdjacencyList)this.graph;
+        for(String s:gal.adjacencyList.keySet()){
+            System.out.println(s+" - Predecessor:"+this.predecessors.get(s) +" - TempoDescoberta:"+this.tempoDescoberta.get(s)+" - TempoFinalizacao:"+this.tempoFinalizacao.get(s));
+        }
+    }
 }
